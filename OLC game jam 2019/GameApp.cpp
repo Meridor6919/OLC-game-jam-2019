@@ -1,12 +1,12 @@
 #include "GameApp.h"
-#include "SimpleMath.h"
+
 
 GameApp::GameApp(HINSTANCE instance) : DirectXApplication(instance)
 {
 	common_states = std::make_unique<DirectX::CommonStates>(device);
 	basic_effect = std::make_unique<DirectX::BasicEffect>(device);
 	basic_effect->SetVertexColorEnabled(true);
-	//game = new Game();
+	
 
 	void const* shaderByteCode;
 	size_t byteCodeLength;
@@ -21,12 +21,13 @@ GameApp::GameApp(HINSTANCE instance) : DirectXApplication(instance)
 	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(0.f, float(window_width), float(window_height), 0.f, 0.f, 1.f);
 	basic_effect->SetProjection(proj);
 
-	sprite_batch = std::make_unique<DirectX::SpriteBatch>(device_context);
+	sprite_batch = std::make_shared<DirectX::SpriteBatch>(device_context);
 	primitive_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(device_context);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", false);
 	mouse = std::make_unique<DirectX::Mouse>();
 	mouse->SetWindow(hwnd);
 	mouse_tracker = std::make_unique<DirectX::Mouse::ButtonStateTracker>();
+	game = std::make_unique<Game>(sprite_batch, device);
 }
 
 void GameApp::Update(float delta_time)
@@ -44,20 +45,8 @@ void GameApp::Update(float delta_time)
 void GameApp::Render(float delta_time)
 {
 	Clear();
-	
-	primitive_batch->Begin();
-
-	DirectX::SimpleMath::Vector3 v1(0.f, 0.f, 0.0f);
-	DirectX::SimpleMath::Vector3 v2(1200.f, 800.f, 0.f);
-
-	DirectX::VertexPositionColor vc1(v1, DirectX::Colors::Black);
-	DirectX::VertexPositionColor vc2(v2, DirectX::Colors::Black);
-		
-	primitive_batch->DrawLine(vc1, vc2);
-	primitive_batch->End();
-
-
-
+	game->DrawPrimitiveBatch(primitive_batch.get(), delta_time);
+	game->DrawSpriteBatch(sprite_batch.get(), delta_time);
 	swap_chain->Present(0, 0);
 	
 
@@ -65,7 +54,7 @@ void GameApp::Render(float delta_time)
 
 void GameApp::Clear()
 {
-	device_context->ClearRenderTargetView(render_target_view, DirectX::Colors::CornflowerBlue);
+	device_context->ClearRenderTargetView(render_target_view, DirectX::Colors::White);
 	device_context->ClearDepthStencilView(stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	device_context->OMSetRenderTargets(1, &render_target_view, stencil_view);
 
