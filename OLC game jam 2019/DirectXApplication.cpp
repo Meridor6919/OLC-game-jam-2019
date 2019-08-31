@@ -1,5 +1,6 @@
 #include "DirectXApplication.h"
 
+bool DirectXApplication::reset = false;
 DirectXApplication::DirectXApplication(HINSTANCE instance)
 {
 	hwnd = 0;
