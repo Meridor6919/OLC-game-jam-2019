@@ -5,7 +5,7 @@ DirectXApplication::DirectXApplication(HINSTANCE instance)
 {
 	hwnd = 0;
 	this->instance = &instance;
-	window_width = 1280;
+	window_width = 1200;
 	window_height = 800;
 	title = "Prototype";
 	window_style = WS_OVERLAPPED;
@@ -171,7 +171,7 @@ bool DirectXApplication::InitD3D11()
 	swap_desc.OutputWindow = hwnd;
 	swap_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	swap_desc.Windowed = true;
-	swap_desc.SampleDesc.Count = 1;
+	swap_desc.SampleDesc.Count = 4;
 	swap_desc.SampleDesc.Quality = 0;
 	swap_desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
@@ -187,7 +187,8 @@ bool DirectXApplication::InitD3D11()
 	ID3D11Texture2D* back_buffer = nullptr;
 	swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&back_buffer));
 	device->CreateRenderTargetView(back_buffer, nullptr, &render_target_view);
-	device_context->OMSetRenderTargets(1, &render_target_view, nullptr);
+	device->CreateDepthStencilView(back_buffer, nullptr, &stencil_view);
+	device_context->OMSetRenderTargets(1, &render_target_view, stencil_view);
 	viewport.Width = (float)window_width;
 	viewport.Height = (float)window_height;
 	viewport.TopLeftX = 0;

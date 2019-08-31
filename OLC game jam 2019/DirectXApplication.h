@@ -40,6 +40,7 @@ protected:
 
 	ID3D11Device *device;
 	ID3D11DeviceContext* device_context;
+	ID3D11DepthStencilView *stencil_view;
 	IDXGISwapChain* swap_chain;
 	ID3D11RenderTargetView* render_target_view;
 	D3D_DRIVER_TYPE driver_type;

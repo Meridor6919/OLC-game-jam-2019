@@ -1,5 +1,5 @@
 #include "GameApp.h"
-
+#include "SimpleMath.h"
 
 GameApp::GameApp(HINSTANCE instance) : DirectXApplication(instance)
 {
@@ -43,12 +43,40 @@ void GameApp::Update(float delta_time)
 
 void GameApp::Render(float delta_time)
 {
-	float f[4] = { 0.1,0.15,0.15,1.0f };
-	device_context->ClearRenderTargetView(render_target_view, f);
-	//DrawThings
-	sprite_batch->Begin(DirectX::SpriteSortMode_FrontToBack);
-	//Draw sprites
-	sprite_batch->End();
+	Clear();
+	
+	primitive_batch->Begin();
+
+	DirectX::SimpleMath::Vector3 v1(0.f, 0.f, 0.0f);
+	DirectX::SimpleMath::Vector3 v2(1200.f, 800.f, 0.f);
+
+	DirectX::VertexPositionColor vc1(v1, DirectX::Colors::Black);
+	DirectX::VertexPositionColor vc2(v2, DirectX::Colors::Black);
+		
+	primitive_batch->DrawLine(vc1, vc2);
+	primitive_batch->End();
+
+
+
 	swap_chain->Present(0, 0);
+	
+
+}
+
+void GameApp::Clear()
+{
+	device_context->ClearRenderTargetView(render_target_view, DirectX::Colors::CornflowerBlue);
+	device_context->ClearDepthStencilView(stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	device_context->OMSetRenderTargets(1, &render_target_view, stencil_view);
+
+	CD3D11_VIEWPORT viewPort(0.0f, 0.0f, static_cast<float>(window_width), static_cast<float>(window_height));
+	device_context->RSSetViewports(1, &viewPort);
+
+	device_context->OMSetBlendState(common_states->Opaque(), nullptr, 0xFFFFFFFF);
+	device_context->OMSetDepthStencilState(common_states->DepthNone(), 0);
+	device_context->RSSetState(common_states->CullNone());
+	basic_effect->SetWorld(DirectX::SimpleMath::Matrix::Identity);
+	basic_effect->Apply(device_context);
+	device_context->IASetInputLayout(input_layout);
 
 }
