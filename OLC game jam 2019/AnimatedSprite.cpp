@@ -12,9 +12,18 @@ void MeridorGraphics::AnimatedSprite::AddFrame(RECT frame)
 {
 	frames.push_back(frame);
 }
-void MeridorGraphics::AnimatedSprite::Draw(float delta_time)
+void MeridorGraphics::AnimatedSprite::Draw()
 {
 	MeridorGraphics::Sprite::Draw();
+}
+
+void MeridorGraphics::AnimatedSprite::SetFrameTime(float frame_time)
+{
+	this->frame_time = frame_time;
+}
+
+void MeridorGraphics::AnimatedSprite::Update(float delta_time)
+{
 	time_to_next_frame -= delta_time;
 
 	if (time_to_next_frame < 0)
@@ -32,9 +41,4 @@ void MeridorGraphics::AnimatedSprite::Draw(float delta_time)
 
 		source = frames[frame_index];
 	}
-}
-
-void MeridorGraphics::AnimatedSprite::SetFrameTime(float frame_time)
-{
-	this->frame_time = frame_time;
 }
