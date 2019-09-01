@@ -4,6 +4,8 @@
 
 class Player
 {
+protected:
+
 	float pos_x;
 	float pos_y;
 	int width;
@@ -16,8 +18,10 @@ class Player
 
 public:
 	Player(std::shared_ptr<StickmanAnimationLR> stickman_animation_left_right, std::shared_ptr<StickmanAnimation0> stickman_animation_zero);
-	void Move(DirectX::SimpleMath::Vector2 direction, float delta_time);
-	void Draw();
-	void Update(float delta_time);
+	virtual void Move(DirectX::SimpleMath::Vector2 direction, float delta_time);
+	virtual void Draw();
+	virtual void Update(float delta_time);
+	virtual float GetX() { return pos_x;  }
+	virtual float GetY() { return pos_y; }
 };
 
