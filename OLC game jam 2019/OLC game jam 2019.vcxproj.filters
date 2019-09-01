@@ -34,6 +34,12 @@
     <ClCompile Include="Game.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -55,6 +61,15 @@
       <Filter>Animations</Filter>
     </ClInclude>
     <ClInclude Include="StickmanAnimationLR.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StickmanAnimation0.h">
       <Filter>Animations</Filter>
     </ClInclude>
   </ItemGroup>

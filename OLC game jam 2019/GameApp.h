@@ -16,6 +16,8 @@ protected:
 
 	std::unique_ptr<DirectX::Mouse> mouse;
 	std::unique_ptr<DirectX::Mouse::ButtonStateTracker> mouse_tracker;
+	std::unique_ptr<DirectX::Keyboard> keyboard;
+	std::unique_ptr<DirectX::Keyboard::KeyboardStateTracker> keyboard_tracker;
 	std::shared_ptr<DirectX::SpriteBatch> sprite_batch;
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> primitive_batch;
 	std::unique_ptr<DirectX::CommonStates> common_states;

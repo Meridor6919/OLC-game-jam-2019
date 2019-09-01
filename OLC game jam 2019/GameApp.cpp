@@ -27,6 +27,8 @@ GameApp::GameApp(HINSTANCE instance) : DirectXApplication(instance)
 	mouse = std::make_unique<DirectX::Mouse>();
 	mouse->SetWindow(hwnd);
 	mouse_tracker = std::make_unique<DirectX::Mouse::ButtonStateTracker>();
+	keyboard = std::make_unique<DirectX::Keyboard>();
+	keyboard_tracker = std::make_unique<DirectX::Keyboard::KeyboardStateTracker>();
 	game = std::make_unique<Game>(sprite_batch.get(), device);
 }
 
@@ -39,7 +41,8 @@ void GameApp::Update(float delta_time)
 		//game = new Game();
 	}
 	mouse_tracker->Update(mouse->GetState());
-	//game->Update(mouse_tracker, mouse);
+	keyboard_tracker->Update(keyboard->GetState());
+	game->Update(mouse_tracker.get(), mouse.get(), keyboard_tracker.get(), keyboard.get(), delta_time);
 }
 
 void GameApp::Render(float delta_time)
@@ -54,7 +57,7 @@ void GameApp::Render(float delta_time)
 
 void GameApp::Clear()
 {
-	device_context->ClearRenderTargetView(render_target_view, DirectX::Colors::White);
+	device_context->ClearRenderTargetView(render_target_view, DirectX::Colors::Red);
 	device_context->ClearDepthStencilView(stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	device_context->OMSetRenderTargets(1, &render_target_view, stencil_view);
 
