@@ -2,17 +2,9 @@
 
 
 
-Game::Game(std::shared_ptr<DirectX::SpriteBatch> sprite_batch, ID3D11Device *device)
+Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 {
-	const int width = 250;
-	const int height = 250;
-	stickman_run_right = new MeridorGraphics::AnimatedSprite(sprite_batch.get(), { 0, 0, width, 250 }, -100, -100, 50, 50, 0.1f);
-	stickman_run_right->AddTexture(L"Graphics\\stickman_right.png", device);
-	for (int i = 0; i < 7; ++i)
-	{
-		stickman_run_right->AddFrame({ 0, height + height*i, width, height*2 + height*i });
-	}
-	
+	stickman_animation_left_right = std::make_unique<StickmanAnimationLR>(sprite_batch, device);
 }
 
 void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionColor> *primitive_batch, float delta_time)
@@ -41,12 +33,10 @@ void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time
 	{
 		for (int i = 0; i < 24; ++i)
 		{
-			stickman_run_right->SetX(-500 + i * 25+distance);
-			stickman_run_right->SetY(0 + j * 25);
-			stickman_run_right->Draw();
+			stickman_animation_left_right->Draw(i * 25 + distance, j * 25, 50, 50, 0.0f, DirectX::SpriteEffects::SpriteEffects_None);
 		}
 	}
-	stickman_run_right->Update(delta_time);
+	stickman_animation_left_right->Update(delta_time);
 	sprite_batch->End();
 	
 }

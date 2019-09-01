@@ -124,10 +124,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="DirectXApplication.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StickmanAnimationLR.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

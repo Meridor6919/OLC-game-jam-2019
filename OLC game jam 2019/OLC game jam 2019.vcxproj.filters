@@ -11,6 +11,9 @@
     <Filter Include="Game Files">
       <UniqueIdentifier>{980d11e9-0163-49aa-8bb2-7bc8746eb885}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animations">
+      <UniqueIdentifier>{6ab8e10d-6bfd-4daf-85ef-76e62a330399}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
@@ -47,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="StickmanAnimationLR.h">
+      <Filter>Animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

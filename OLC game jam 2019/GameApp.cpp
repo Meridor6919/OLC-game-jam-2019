@@ -27,7 +27,7 @@ GameApp::GameApp(HINSTANCE instance) : DirectXApplication(instance)
 	mouse = std::make_unique<DirectX::Mouse>();
 	mouse->SetWindow(hwnd);
 	mouse_tracker = std::make_unique<DirectX::Mouse::ButtonStateTracker>();
-	game = std::make_unique<Game>(sprite_batch, device);
+	game = std::make_unique<Game>(sprite_batch.get(), device);
 }
 
 void GameApp::Update(float delta_time)
