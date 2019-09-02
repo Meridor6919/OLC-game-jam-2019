@@ -18,6 +18,7 @@ namespace MeridorGraphics {
 		void AddFrame(RECT frame);
 		void Draw();
 		void SetFrameTime(float frame_time);
+		void SetFrame(int frame);
 		void Update(float delta_time);
 		bool EndReached() { return last_frame_reached; }
 

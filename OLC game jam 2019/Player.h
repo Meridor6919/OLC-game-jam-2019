@@ -13,7 +13,7 @@ protected:
 	float base_speed;
 	bool to_the_left;
 	bool move;
-	std::shared_ptr<StickmanAnimationLR> stickman_animation_left_right;
+	std::tuple< std::shared_ptr<StickmanAnimationLR>, float, int> stickman_animation_left_right;
 	std::shared_ptr<StickmanAnimation0> stickman_animation_zero;
 
 public:

@@ -42,6 +42,19 @@ protected:
 	}
 	virtual void Update(float delta_time)
 	{
-		animated_sprite->Update(delta_time);
+		
+	}
+public:
+	virtual int NumberOfFrames()
+	{
+		return number_of_frames;
+	}
+	virtual float FrameTime()
+	{
+		return frame_time;
+	}
+	virtual void SetFrame(int frame)
+	{
+		animated_sprite->SetFrame(frame);
 	}
 };

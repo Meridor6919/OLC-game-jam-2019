@@ -32,47 +32,58 @@ void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time
 	static int distance = 0;
 	distance++;
 	sprite_batch->Begin();
-	player->Draw();
+	if(player)
+		player->Draw();
 	for (int i = 0; i < static_cast<int>(enemy.size()); ++i)
 		enemy[i]->Draw();
-	//stickman_animation_left_right->Update(delta_time);
 	sprite_batch->End();
 	
 }
 
 void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, const DirectX::Mouse * mouse, const DirectX::Keyboard::KeyboardStateTracker * keyboard_tracker, const DirectX::Keyboard * keyboard, float delta_time)
 {
-	auto keyboard_state = keyboard->GetState();
-	if (keyboard_state.Escape)
+	if (player)
 	{
-		exit(0);
+		auto keyboard_state = keyboard->GetState();
+		if (keyboard_state.Escape)
+		{
+			exit(0);
+		}
+		player->Move({ static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) }, delta_time);
+		player->Update(delta_time);
+		for (int i = static_cast<int>(enemy.size()) - 1; i >= 0; --i)
+		{
+			DirectX::SimpleMath::Vector2 dir;
+			if (player->GetX() - enemy[i]->GetX() > 0)
+			{
+				dir.x = 1;
+			}
+			else if (player->GetX() - enemy[i]->GetX() < -50)
+			{
+				dir.x = -1;
+			}
+			if (enemy[i]->GetY() - player->GetY() > 50)
+			{
+				dir.y = 1;
+			}
+			else if (enemy[i]->GetY() - player->GetY() < 0)
+			{
+				dir.y = -1;
+			}
+			enemy[i]->Move(dir, delta_time);
+			enemy[i]->Update(delta_time);
+			if (dir.x == 0 && dir.y == 0)
+			{
+				enemy.erase(enemy.begin() + i);
+				hp -= 10;
+				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
+				if (hp < 0)
+				{
+					player.release();
+					break;
+				}
+			}
+		}
 	}
-	player->Move({ static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) }, delta_time);
-
-	for (int i = 0; i < static_cast<int>(enemy.size()); ++i)
-	{
-		DirectX::SimpleMath::Vector2 dir;
-		if (player->GetX() - enemy[i]->GetX() > 0)
-		{
-			dir.x = 1;
-		}
-		else if (player->GetX() - enemy[i]->GetX() < -70)
-		{
-			dir.x = -1;
-		}
-		if (enemy[i]->GetY() - player->GetY() > 100)
-		{
-			dir.y = 1;
-		}
-		else if (enemy[i]->GetY() - player->GetY() < 0)
-		{
-			dir.y = -1;
-		}
-
-		enemy[i]->Move(dir, delta_time);
-	}
-	enemy[0]->Update(delta_time);
-	player->Update(delta_time);
-	
 }
 

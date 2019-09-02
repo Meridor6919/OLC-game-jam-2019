@@ -57,7 +57,7 @@ void GameApp::Render(float delta_time)
 
 void GameApp::Clear()
 {
-	device_context->ClearRenderTargetView(render_target_view, DirectX::Colors::Red);
+	device_context->ClearRenderTargetView(render_target_view, game->GetBackground());
 	device_context->ClearDepthStencilView(stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	device_context->OMSetRenderTargets(1, &render_target_view, stencil_view);
 

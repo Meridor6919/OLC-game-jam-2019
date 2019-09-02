@@ -1,9 +1,8 @@
 #pragma once
 #include "Animation.h"
 
-class StickmanAnimationLR : Animation
+class StickmanAnimationLR : public Animation
 {
-
 public:
 	StickmanAnimationLR(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	{ 

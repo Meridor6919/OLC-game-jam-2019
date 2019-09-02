@@ -1,7 +1,7 @@
 #pragma once
 #include "Animation.h"
 
-class StickmanAnimation0 : Animation
+class StickmanAnimation0 : public Animation
 {
 
 public:
