@@ -27,6 +27,16 @@ void Player::Move(DirectX::SimpleMath::Vector2 direction, float delta_time)
 		move = true;
 	pos_x += direction.x*base_speed*delta_time;
 	pos_y -= direction.y*delta_time*base_speed;
+
+	if (pos_x < 0)
+		pos_x = 0;
+	else if (pos_x > 1200 - width)
+		pos_x = 1200 - width;
+	if (pos_y < 0)
+		pos_y = 0;
+	else if (pos_y > 800 - height)
+		pos_y = 800 - height;
+	
 	to_the_left = direction.x < 0;
 	}
 }
