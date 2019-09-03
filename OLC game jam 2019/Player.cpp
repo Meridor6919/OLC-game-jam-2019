@@ -4,6 +4,18 @@
 
 
 
+void Player::SetBoundries()
+{
+	if (pos_x < 0)
+		pos_x = 0;
+	else if (pos_x > 1200 - width)
+		pos_x = 1200 - width;
+	if (pos_y < 50)
+		pos_y = 50;
+	else if (pos_y > 800 - height)
+		pos_y = 800 - height;
+}
+
 Player::Player(std::shared_ptr<Animation> moving, std::shared_ptr<Animation> staying)
 {
 	pos_x = 600;
@@ -23,21 +35,18 @@ void Player::Move(DirectX::SimpleMath::Vector2 direction, float delta_time)
 	{
 		move = false;
 	}
-	else {
+	else 
+	{
 		move = true;
-	pos_x += direction.x*base_speed*delta_time;
-	pos_y -= direction.y*delta_time*base_speed;
-
-	if (pos_x < 0)
-		pos_x = 0;
-	else if (pos_x > 1200 - width)
-		pos_x = 1200 - width;
-	if (pos_y < 50)
-		pos_y = 50;
-	else if (pos_y > 800 - height)
-		pos_y = 800 - height;
-	
-	to_the_left = direction.x < 0;
+		if (direction.x * direction.y)
+		{
+			direction.x *= sqrt(2) / 2;
+			direction.y *= sqrt(2) / 2;
+		}
+		pos_x += direction.x*base_speed*delta_time;
+		pos_y -= direction.y*delta_time*base_speed;
+		SetBoundries();
+		to_the_left = direction.x < 0;
 	}
 }
 

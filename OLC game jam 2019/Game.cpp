@@ -11,7 +11,7 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
-	for (int i = 0; i < 1; ++i)
+	for (int i = 0; i < 100; ++i)
 		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 }
 
@@ -75,6 +75,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 {
 	if (alive)
 	{
+		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 		auto keyboard_state = keyboard->GetState();
 		player->Move({ static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) }, delta_time);
 		player->Update(delta_time);

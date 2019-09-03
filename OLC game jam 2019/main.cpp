@@ -1,7 +1,9 @@
 #include "GameApp.h"
+#include <time.h>
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instace, LPSTR cmd_line, int show_cmd)
 {
+	srand(time(NULL));
 	try
 	{
 		GameApp xd(instance);

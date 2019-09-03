@@ -15,6 +15,7 @@ protected:
 	bool move;
 	std::tuple< std::shared_ptr<Animation>, float, int> moving;
 	std::tuple< std::shared_ptr<Animation>, float, int> staying;
+	virtual void SetBoundries();
 
 public:
 	Player(std::shared_ptr<Animation> moving, std::shared_ptr<Animation> staying);
