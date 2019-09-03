@@ -32,8 +32,8 @@ void Player::Move(DirectX::SimpleMath::Vector2 direction, float delta_time)
 		pos_x = 0;
 	else if (pos_x > 1200 - width)
 		pos_x = 1200 - width;
-	if (pos_y < 0)
-		pos_y = 0;
+	if (pos_y < 50)
+		pos_y = 50;
 	else if (pos_y > 800 - height)
 		pos_y = 800 - height;
 	

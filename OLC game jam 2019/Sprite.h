@@ -53,6 +53,7 @@ namespace MeridorGraphics {
 		float depth;
 		float rotation;
 		float scale;
+		DirectX::XMVECTOR color;
 		DirectX::XMFLOAT2 position;
 		DirectX::SpriteEffects effect;
 
@@ -65,6 +66,7 @@ namespace MeridorGraphics {
 		void SetFontSize(float font_size);
 		void SetEffect(DirectX::SpriteEffects effect);
 		void SetDepth(float depth);
+		void SetColor(DirectX::XMVECTOR color);
 
 		float GetRotation() { return rotation; }
 		DirectX::XMFLOAT2 GetPosition() { return position; }

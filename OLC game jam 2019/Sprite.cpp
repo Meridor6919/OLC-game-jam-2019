@@ -63,11 +63,12 @@ MeridorGraphics::Text::Text(DirectX::SpriteFont* sprite_font, DirectX::SpriteBat
 	this->depth = depth;
 	this->rotation = rotation;
 	this->position = position;
+	this->color = DirectX::Colors::White;
 	this->effect = DirectX::SpriteEffects::SpriteEffects_None;
 }
 void MeridorGraphics::Text::Draw(const wchar_t* text)
 {
-	sprite_font->DrawString(sprite_batch, text, position, DirectX::Colors::White, rotation, { 0.0f,0.0f }, scale, effect, depth);
+	sprite_font->DrawString(sprite_batch, text, position, color, rotation, { 0.0f,0.0f }, scale, effect, depth);
 }
 
 void MeridorGraphics::Text::SetRotation(float rotation)
@@ -93,4 +94,9 @@ void MeridorGraphics::Text::SetEffect(DirectX::SpriteEffects effect)
 void MeridorGraphics::Text::SetDepth(float depth)
 {
 	this->depth = depth;
+}
+
+void MeridorGraphics::Text::SetColor(DirectX::XMVECTOR color)
+{
+	this->color = color;
 }

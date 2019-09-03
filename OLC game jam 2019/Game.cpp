@@ -8,10 +8,10 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	staying = std::make_shared<StickmanAnimation0>(sprite_batch, device);
 	kicking = std::make_shared<StickmanAnimationKick>(sprite_batch, device);
 	player = std::make_unique<Player>(moving, staying);
-	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont");
+	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 1; ++i)
 		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 }
 
@@ -20,13 +20,24 @@ void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionCol
 	
 	primitive_batch->Begin();
 
-	DirectX::SimpleMath::Vector3 v1(900.f, 0.f, 0.0f);
-	DirectX::SimpleMath::Vector3 v2(900.f, 800.f, 0.f);
+	DirectX::SimpleMath::Vector3 v1(0.f, 50.f, 0.0f);
+	DirectX::SimpleMath::Vector3 v2(1200.f, 50.f, 0.f);
+	DirectX::SimpleMath::Vector3 v3(0.f, 0.f, 0.f);
+	DirectX::SimpleMath::Vector3 v4(1200.f, 0.f, 0.f);
 
+	
 	DirectX::VertexPositionColor vc1(v1, DirectX::Colors::Black);
 	DirectX::VertexPositionColor vc2(v2, DirectX::Colors::Black);
+	DirectX::VertexPositionColor vc3(v3, color);
+	DirectX::VertexPositionColor vc4(v4, color);
 
 	primitive_batch->DrawLine(vc1, vc2);
+	
+	vc1.color = DirectX::SimpleMath::Vector4(color);;
+	vc2.color = DirectX::SimpleMath::Vector4(color);;
+	primitive_batch->DrawQuad(vc3, vc1, vc2, vc4);
+
+
 	primitive_batch->End();
 	
 }
@@ -51,6 +62,7 @@ void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time
 		}
 		text->SetFontSize(64.0f * (0.9f+timer/4));
 		text->SetPosition({ 100 / (timer/4 + 0.45f), 300 });
+		text->SetColor(DirectX::Colors::DarkRed);
 		text->Draw(L"Press R to Reset");
 		
 	}
