@@ -8,7 +8,7 @@
 
 class Animation {
 
-protected:
+public:
 	float frame_time;
 	std::wstring path;
 	int frame_width;

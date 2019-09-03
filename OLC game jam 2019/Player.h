@@ -13,11 +13,11 @@ protected:
 	float base_speed;
 	bool to_the_left;
 	bool move;
-	std::tuple< std::shared_ptr<StickmanAnimationLR>, float, int> stickman_animation_left_right;
-	std::shared_ptr<StickmanAnimation0> stickman_animation_zero;
+	std::tuple< std::shared_ptr<Animation>, float, int> moving;
+	std::tuple< std::shared_ptr<Animation>, float, int> staying;
 
 public:
-	Player(std::shared_ptr<StickmanAnimationLR> stickman_animation_left_right, std::shared_ptr<StickmanAnimation0> stickman_animation_zero);
+	Player(std::shared_ptr<Animation> moving, std::shared_ptr<Animation> staying);
 	virtual void Move(DirectX::SimpleMath::Vector2 direction, float delta_time);
 	virtual void Draw();
 	virtual void Update(float delta_time);

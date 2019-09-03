@@ -4,14 +4,15 @@
 
 Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 {
-	stickman_animation_left_right = std::make_shared<StickmanAnimationLR>(sprite_batch, device);
-	stickman_animation_zero = std::make_shared<StickmanAnimation0>(sprite_batch, device);
-	player = std::make_unique<Player>(stickman_animation_left_right, stickman_animation_zero);
+	moving = std::make_shared<StickmanAnimationLR>(sprite_batch, device);
+	staying = std::make_shared<StickmanAnimation0>(sprite_batch, device);
+	kicking = std::make_shared<StickmanAnimationKick>(sprite_batch, device);
+	player = std::make_unique<Player>(moving, staying);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont");
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
 	for (int i = 0; i < 50; ++i)
-		enemy.push_back(std::make_unique<Enemy>(stickman_animation_left_right, stickman_animation_zero));
+		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 }
 
 void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionColor> *primitive_batch, float delta_time)
@@ -86,9 +87,8 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 			}
 			enemy[i]->Move(dir, delta_time);
 			enemy[i]->Update(delta_time);
-			if (dir.x == 0 && dir.y == 0)
+			if (enemy[i]->Hit())
 			{
-				enemy.erase(enemy.begin() + i);
 				hp -= 10;
 				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
 				if (hp < 0)

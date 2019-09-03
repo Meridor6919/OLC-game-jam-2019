@@ -4,15 +4,15 @@
 
 
 
-Player::Player(std::shared_ptr<StickmanAnimationLR> stickman_animation_left_right, std::shared_ptr<StickmanAnimation0> stickman_animation_zero)
+Player::Player(std::shared_ptr<Animation> moving, std::shared_ptr<Animation> staying)
 {
 	pos_x = 600;
 	pos_y = 400;
 	width = 100;
 	height = 100;
 	to_the_left = false;
-	this->stickman_animation_left_right = { stickman_animation_left_right, stickman_animation_left_right->FrameTime(), 0 };
-	this->stickman_animation_zero = stickman_animation_zero;
+	this->moving = { moving, moving->FrameTime(), 0 };
+	this->staying = { staying, staying->FrameTime(), 0 };
 	base_speed = 200.0f;
 	move = false;
 }
@@ -45,13 +45,15 @@ void Player::Draw()
 {
 	if (move)
 	{
-		std::get<0>(stickman_animation_left_right)->SetFrame(std::get<2>(stickman_animation_left_right));
-		std::get<0>(stickman_animation_left_right)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
+		std::get<2>(staying) = 0;
+		std::get<0>(moving)->SetFrame(std::get<2>(moving));
+		std::get<0>(moving)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
 	}
 	else
 	{
-		std::get<2>(stickman_animation_left_right) = 0;
-		stickman_animation_zero->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
+		std::get<2>(moving) = 0;
+		std::get<0>(staying)->SetFrame(std::get<2>(staying));
+		std::get<0>(staying)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
 	}
 }
 
@@ -59,20 +61,27 @@ void Player::Update(float delta_time)
 {
 	if (move)
 	{
-		std::get<1>(stickman_animation_left_right) -= delta_time;
+		std::get<1>(moving) -= delta_time;
 
-		if (std::get<1>(stickman_animation_left_right) < 0)
+		if (std::get<1>(moving) < 0)
 		{
-			std::get<1>(stickman_animation_left_right) = std::get<1>(stickman_animation_left_right) + std::get<0>(stickman_animation_left_right)->FrameTime();
-			std::get<2>(stickman_animation_left_right) = (std::get<2>(stickman_animation_left_right) + 1) % (std::get<0>(stickman_animation_left_right)->NumberOfFrames() + 1) + 1;
-			if (std::get<1>(stickman_animation_left_right) < 0)
-				std::get<1>(stickman_animation_left_right) = 0;
+			std::get<1>(moving) = std::get<1>(moving) + std::get<0>(moving)->FrameTime();
+			std::get<2>(moving) = (std::get<2>(moving) + 1) % (std::get<0>(moving)->NumberOfFrames() + 1) + 1;
+			if (std::get<1>(moving) < 0)
+				std::get<1>(moving) = 0;
 		}
 	}
 	else
 	{
-	stickman_animation_zero->Update(delta_time);
+		std::get<1>(staying) -= delta_time;
 
+		if (std::get<1>(staying) < 0)
+		{
+			std::get<1>(staying) = std::get<1>(staying) + std::get<0>(staying)->FrameTime();
+			std::get<2>(staying) = (std::get<2>(staying) + 1) % (std::get<0>(staying)->NumberOfFrames() + 1) + 1;
+			if (std::get<1>(staying) < 0)
+				std::get<1>(staying) = 0;
+		}
 	}
 }
 

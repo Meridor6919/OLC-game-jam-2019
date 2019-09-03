@@ -134,6 +134,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StickmanAnimation0.h" />
+    <ClInclude Include="StickmanAnimationKick.h" />
     <ClInclude Include="StickmanAnimationLR.h" />
   </ItemGroup>
   <ItemGroup>

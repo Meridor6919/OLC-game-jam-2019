@@ -72,6 +72,9 @@
     <ClInclude Include="StickmanAnimation0.h">
       <Filter>Animations</Filter>
     </ClInclude>
+    <ClInclude Include="StickmanAnimationKick.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

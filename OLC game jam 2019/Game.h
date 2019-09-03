@@ -5,6 +5,7 @@
 #include "VertexTypes.h"
 #include "StickmanAnimationLR.h"
 #include "StickmanAnimation0.h"
+#include "StickmanAnimationKick.h"
 #include "Player.h"
 #include "Enemy.h"
 
@@ -12,8 +13,9 @@ class Game
 {
 	int hp = 100;
 	bool alive = true;
-	std::shared_ptr<StickmanAnimationLR> stickman_animation_left_right;
-	std::shared_ptr<StickmanAnimation0> stickman_animation_zero;
+	std::shared_ptr<StickmanAnimationLR> moving;
+	std::shared_ptr<StickmanAnimation0> staying;
+	std::shared_ptr<StickmanAnimationKick> kicking;
 	std::unique_ptr<MeridorGraphics::Text>text;
 	std::unique_ptr<DirectX::SpriteFont> sprite_font;
 	std::unique_ptr<Player> player;

@@ -47,3 +47,16 @@ void MeridorGraphics::AnimatedSprite::Update(float delta_time)
 		source = frames[frame_index];
 	}
 }
+
+bool MeridorGraphics::AnimatedSprite::EndReached()
+{
+	if(last_frame_reached)
+	{ 
+		last_frame_reached = false; 
+		return true; 
+	}
+	else
+	{
+		return false;
+	}
+}

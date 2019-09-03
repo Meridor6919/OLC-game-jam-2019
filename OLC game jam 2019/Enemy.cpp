@@ -1,16 +1,26 @@
 #include "Enemy.h"
 
-Enemy::Enemy(std::shared_ptr<StickmanAnimationLR> stickman_animation_left_right, std::shared_ptr<StickmanAnimation0> stickman_animation_zero) : Player(stickman_animation_left_right, stickman_animation_zero)
+Enemy::Enemy(std::shared_ptr<Animation> moving, std::shared_ptr<Animation> staying) : Player(moving, staying)
 {
 	pos_x = 0 + rand()%1200;
 	pos_y = 0;
 	width = 50;
 	height = 50;
 	to_the_left = false;
-	this->stickman_animation_left_right = { stickman_animation_left_right, stickman_animation_left_right->FrameTime(), 0 };
-	this->stickman_animation_zero = stickman_animation_zero;
+	this->moving = { moving, moving->FrameTime(), 0 };
+	this->staying = { staying, staying->FrameTime(), 0 };
 	base_speed = 50.0f;
 	move = false;
+}
+
+bool Enemy::Hit()
+{
+	if(std::get<2>(staying) == 12)
+	{ 
+		std::get<2>(staying) = 0;
+		return true; 
+	}
+	return false;
 }
 
 
