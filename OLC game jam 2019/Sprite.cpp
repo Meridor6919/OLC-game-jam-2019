@@ -14,15 +14,14 @@ MeridorGraphics::Sprite::Sprite(DirectX::SpriteBatch* sprite_batch, RECT source,
 	this->orgin = { static_cast<float>(source.right - source.left) / 2.0f, static_cast<float>(source.bottom - source.top) / 2.0f };
 	this->effect = DirectX::SpriteEffects::SpriteEffects_None;
 }
-ID3D11ShaderResourceView * MeridorGraphics::Sprite::AddTexture(const wchar_t * file_name, ID3D11Device * device)
+void MeridorGraphics::Sprite::AddTexture(const wchar_t * file_name, ID3D11Device * device)
 {
-	DirectX::CreateWICTextureFromFile(device, file_name, nullptr, &rc_view);
-	return rc_view;
+	DirectX::CreateWICTextureFromFile(device, file_name, nullptr, rc_view.ReleaseAndGetAddressOf());
 }
 void MeridorGraphics::Sprite::Draw()
 {
 	//destination RECT now will be placed accordingly to top-left corner
-	sprite_batch->Draw(rc_view, { pos_x + width / 2, pos_y + height / 2, width + pos_x + width / 2, height + pos_y + height / 2 }, &source, DirectX::Colors::White, rotation, orgin, effect, depth);
+	sprite_batch->Draw(rc_view.Get(), { pos_x + width / 2, pos_y + height / 2, width + pos_x + width / 2, height + pos_y + height / 2 }, &source, DirectX::Colors::White, rotation, orgin, effect, depth);
 }
 void MeridorGraphics::Sprite::SetRotation(float rotation)
 {

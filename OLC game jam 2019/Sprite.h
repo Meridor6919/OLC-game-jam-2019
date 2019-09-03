@@ -3,13 +3,14 @@
 #include <SpriteFont.h>
 #include <WICTextureLoader.h>
 #include <vector>
+#include <wrl.h>
 
 namespace MeridorGraphics {
 	class Sprite {
 
 	protected:
 		DirectX::SpriteBatch* sprite_batch;
-		ID3D11ShaderResourceView* rc_view;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> rc_view;
 		float depth;
 		float rotation;
 		RECT source;
@@ -23,7 +24,7 @@ namespace MeridorGraphics {
 	public:
 
 		Sprite(DirectX::SpriteBatch* sprite_batch, RECT source, LONG pos_x, LONG pos_y, LONG width, LONG height, float depth = 0.0f, float rotation = 0.0f);
-		virtual ID3D11ShaderResourceView* AddTexture(const wchar_t* file_name, ID3D11Device *device);
+		virtual void AddTexture(const wchar_t* file_name, ID3D11Device *device);
 		virtual void Draw();
 		void SetRotation(float rotation);
 		void SetSourceRect(RECT source);

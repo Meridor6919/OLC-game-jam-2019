@@ -34,14 +34,16 @@ GameApp::GameApp(HINSTANCE instance) : DirectXApplication(instance)
 
 void GameApp::Update(float delta_time)
 {
-	if (reset)
-	{
-		reset = false;
-		//delete game;
-		//game = new Game();
-	}
 	mouse_tracker->Update(mouse->GetState());
 	keyboard_tracker->Update(keyboard->GetState());
+	if(keyboard->GetState().R)
+	{
+		game = std::make_unique<Game>(sprite_batch.get(), device);
+	}
+	if (keyboard->GetState().Escape)
+	{
+		exit(0);
+	}
 	game->Update(mouse_tracker.get(), mouse.get(), keyboard_tracker.get(), keyboard.get(), delta_time);
 }
 

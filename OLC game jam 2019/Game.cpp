@@ -45,10 +45,6 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 	if (player)
 	{
 		auto keyboard_state = keyboard->GetState();
-		if (keyboard_state.Escape)
-		{
-			exit(0);
-		}
 		player->Move({ static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) }, delta_time);
 		player->Update(delta_time);
 		for (int i = static_cast<int>(enemy.size()) - 1; i >= 0; --i)
@@ -79,7 +75,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
 				if (hp < 0)
 				{
-					player.release();
+					player.reset();
 					break;
 				}
 			}
