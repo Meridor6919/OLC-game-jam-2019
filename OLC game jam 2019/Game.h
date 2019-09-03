@@ -11,8 +11,11 @@
 class Game
 {
 	int hp = 100;
+	bool alive = true;
 	std::shared_ptr<StickmanAnimationLR> stickman_animation_left_right;
 	std::shared_ptr<StickmanAnimation0> stickman_animation_zero;
+	std::unique_ptr<MeridorGraphics::Text>text;
+	std::unique_ptr<DirectX::SpriteFont> sprite_font;
 	std::unique_ptr<Player> player;
 	std::vector<std::unique_ptr<Enemy>> enemy;
 	DirectX::XMVECTORF32 color = { 0.2f , 0.8f, 0.1f, 1.0f };

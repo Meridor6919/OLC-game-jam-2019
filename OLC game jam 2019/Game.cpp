@@ -7,6 +7,9 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	stickman_animation_left_right = std::make_shared<StickmanAnimationLR>(sprite_batch, device);
 	stickman_animation_zero = std::make_shared<StickmanAnimation0>(sprite_batch, device);
 	player = std::make_unique<Player>(stickman_animation_left_right, stickman_animation_zero);
+	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont");
+	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
+	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
 	for (int i = 0; i < 50; ++i)
 		enemy.push_back(std::make_unique<Enemy>(stickman_animation_left_right, stickman_animation_zero));
 }
@@ -29,20 +32,35 @@ void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionCol
 
 void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time)
 {
-	static int distance = 0;
-	distance++;
+	static float timer = 1.0f;
+
 	sprite_batch->Begin();
-	if(player)
+	if (alive)
+	{
 		player->Draw();
+	}
 	for (int i = 0; i < static_cast<int>(enemy.size()); ++i)
 		enemy[i]->Draw();
+	if (!alive)
+	{
+		timer -= delta_time;
+		if (timer < 0.0f)
+		{
+			timer = 1 - timer;
+		}
+		text->SetFontSize(64.0f * (0.9f+timer/4));
+		text->SetPosition({ 100 / (timer/4 + 0.45f), 300 });
+		text->Draw(L"Press R to Reset");
+		
+	}
 	sprite_batch->End();
+	
 	
 }
 
 void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, const DirectX::Mouse * mouse, const DirectX::Keyboard::KeyboardStateTracker * keyboard_tracker, const DirectX::Keyboard * keyboard, float delta_time)
 {
-	if (player)
+	if (alive)
 	{
 		auto keyboard_state = keyboard->GetState();
 		player->Move({ static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) }, delta_time);
@@ -75,7 +93,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
 				if (hp < 0)
 				{
-					player.reset();
+					alive = false;
 					break;
 				}
 			}

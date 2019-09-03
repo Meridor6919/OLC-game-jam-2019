@@ -36,11 +36,12 @@ void GameApp::Update(float delta_time)
 {
 	mouse_tracker->Update(mouse->GetState());
 	keyboard_tracker->Update(keyboard->GetState());
-	if(keyboard->GetState().R)
+	auto keyboard_state = keyboard->GetState();
+	if(keyboard_state.R)
 	{
 		game = std::make_unique<Game>(sprite_batch.get(), device);
 	}
-	if (keyboard->GetState().Escape)
+	else if (keyboard_state.Escape)
 	{
 		exit(0);
 	}
