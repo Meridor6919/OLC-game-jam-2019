@@ -20,8 +20,8 @@ Player::Player(std::shared_ptr<Animation> moving, std::shared_ptr<Animation> sta
 {
 	pos_x = 600;
 	pos_y = 400;
-	width = 100;
-	height = 100;
+	width = 50;
+	height = 50;
 	to_the_left = false;
 	this->moving = { moving, moving->FrameTime(), 0 };
 	this->staying = { staying, staying->FrameTime(), 0 };

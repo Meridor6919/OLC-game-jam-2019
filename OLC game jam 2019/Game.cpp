@@ -67,42 +67,51 @@ void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time
 		
 	}
 	sprite_batch->End();
-	
-	
 }
 
 void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, const DirectX::Mouse * mouse, const DirectX::Keyboard::KeyboardStateTracker * keyboard_tracker, const DirectX::Keyboard * keyboard, float delta_time)
 {
 	if (alive)
 	{
-		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
+		if(enemy.size()< 1000)
+			enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 		auto keyboard_state = keyboard->GetState();
-		player->Move({ static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) }, delta_time);
+
+		DirectX::SimpleMath::Vector2 player_move = { static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) };
+		float sum = abs(player_move.x) + abs(player_move.y);
+		if (sum == 0)
+		{
+			sum = 1.0f;
+		}
+		player_move.x /= sum;
+		player_move.y /= sum;
+		player->Move(player_move, delta_time);
 		player->Update(delta_time);
 		for (int i = static_cast<int>(enemy.size()) - 1; i >= 0; --i)
 		{
 			DirectX::SimpleMath::Vector2 dir;
-			if (player->GetX() - enemy[i]->GetX() > 0)
+
+			float distance_x = abs(player->GetX() +player->GetWidth()/2 - enemy[i]->GetX() - enemy[i]->GetWidth()/2 );
+			float distance_y = abs(player->GetY() + player->GetHeight() / 2 - enemy[i]->GetY() - enemy[i]->GetHeight()/2);
+			if (keyboard->GetState().A)
 			{
-				dir.x = 1;
+				DebugBreak();
 			}
-			else if (player->GetX() - enemy[i]->GetX() < -50)
+			if (distance_x*distance_x + distance_y * distance_y < player->GetWidth()/1.2f*enemy[i]->GetWidth()/1.2f)
 			{
-				dir.x = -1;
+				dir.x = 0.0f;
+				dir.y = 0.0f;
 			}
-			if (enemy[i]->GetY() - player->GetY() > 50)
+			else
 			{
-				dir.y = 1;
-			}
-			else if (enemy[i]->GetY() - player->GetY() < 0)
-			{
-				dir.y = -1;
+				dir.x = distance_x/(distance_x+distance_y) * (((player->GetX() + player->GetWidth() / 2 - enemy[i]->GetX() - enemy[i]->GetWidth() / 2) > 0)*2 -1);
+				dir.y = distance_y / (distance_x + distance_y) * (((player->GetY() + player->GetHeight() / 2 - enemy[i]->GetY() - enemy[i]->GetHeight() / 2) > 0) * -2 + 1);
 			}
 			enemy[i]->Move(dir, delta_time);
 			enemy[i]->Update(delta_time);
 			if (enemy[i]->Hit())
 			{
-				hp -= 10;
+				hp -= 0;
 				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
 				if (hp < 0)
 				{

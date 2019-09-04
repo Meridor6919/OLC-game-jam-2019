@@ -25,7 +25,7 @@ Enemy::Enemy(std::shared_ptr<Animation> moving, std::shared_ptr<Animation> stayi
 	to_the_left = false;
 	this->moving = { moving, moving->FrameTime(), 0 };
 	this->staying = { staying, staying->FrameTime(), 0 };
-	base_speed = 190.0f;
+	base_speed = 200.0f;
 	move = false;
 }
 

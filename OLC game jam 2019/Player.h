@@ -24,5 +24,7 @@ public:
 	virtual void Update(float delta_time);
 	virtual float GetX() { return pos_x;  }
 	virtual float GetY() { return pos_y; }
+	virtual float GetWidth() { return width;  }
+	virtual float GetHeight() { return height; }
 };
 
