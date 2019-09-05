@@ -3,9 +3,7 @@
 #include "SimpleMath.h"
 #include "PrimitiveBatch.h"
 #include "VertexTypes.h"
-#include "StickmanAnimationLR.h"
-#include "StickmanAnimation0.h"
-#include "StickmanAnimationKick.h"
+#include "AnimationHeaders.h"
 #include "Player.h"
 #include "Enemy.h"
 
@@ -14,8 +12,9 @@ class Game
 	int hp = 100;
 	bool alive = true;
 	std::shared_ptr<StickmanAnimationLR> moving;
-	std::shared_ptr<StickmanAnimation0> staying;
+	std::shared_ptr<StickmanAnimationStay> staying;
 	std::shared_ptr<StickmanAnimationKick> kicking;
+	std::shared_ptr<StickmanAnimationFall> falling;
 	std::unique_ptr<MeridorGraphics::Text>text;
 	std::unique_ptr<DirectX::SpriteFont> sprite_font;
 	std::unique_ptr<Player> player;

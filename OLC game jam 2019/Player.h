@@ -1,6 +1,5 @@
 #pragma once
-#include "StickmanAnimationLR.h"
-#include "StickmanAnimation0.h"
+#include "AnimationHeaders.h"
 
 class Player
 {

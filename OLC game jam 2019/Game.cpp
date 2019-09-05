@@ -5,8 +5,10 @@
 Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 {
 	moving = std::make_shared<StickmanAnimationLR>(sprite_batch, device);
-	staying = std::make_shared<StickmanAnimation0>(sprite_batch, device);
+	staying = std::make_shared<StickmanAnimationStay>(sprite_batch, device);
 	kicking = std::make_shared<StickmanAnimationKick>(sprite_batch, device);
+	falling = std::make_shared<StickmanAnimationFall>(sprite_batch, device);
+
 	player = std::make_unique<Player>(moving, staying);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };

@@ -127,13 +127,15 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationHeaders.h" />
     <ClInclude Include="DirectXApplication.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="StickmanAnimation0.h" />
+    <ClInclude Include="StickmanAnimationStay.h" />
+    <ClInclude Include="StickmanAnimationFall.h" />
     <ClInclude Include="StickmanAnimationKick.h" />
     <ClInclude Include="StickmanAnimationLR.h" />
   </ItemGroup>
