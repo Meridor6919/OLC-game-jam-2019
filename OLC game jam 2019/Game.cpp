@@ -111,7 +111,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 			enemy[i]->Update(delta_time);
 			if (enemy[i]->Hit())
 			{
-				hp -= 0;
+				hp -= 10;
 				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
 				if (hp < 0)
 				{

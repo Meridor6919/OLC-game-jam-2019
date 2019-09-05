@@ -38,13 +38,12 @@ void Player::Move(DirectX::SimpleMath::Vector2 direction, float delta_time)
 	else 
 	{
 		move = true;
-		if (direction.x * direction.y)
-		{
-			direction.x *= sqrt(2) / 2;
-			direction.y *= sqrt(2) / 2;
-		}
+		float modifier = sqrt(1 / (direction.x*direction.x + direction.y * direction.y));
+		direction.x *= modifier;
+		direction.y *= modifier;
 		pos_x += direction.x*base_speed*delta_time;
 		pos_y -= direction.y*delta_time*base_speed;
+
 		SetBoundries();
 		to_the_left = direction.x < 0;
 	}
