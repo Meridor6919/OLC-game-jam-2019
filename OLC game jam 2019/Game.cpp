@@ -21,7 +21,6 @@ void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionCol
 {
 	
 	primitive_batch->Begin();
-
 	DirectX::SimpleMath::Vector3 v1(0.f, 50.f, 0.0f);
 	DirectX::SimpleMath::Vector3 v2(1200.f, 50.f, 0.f);
 	DirectX::SimpleMath::Vector3 v3(0.f, 0.f, 0.f);
@@ -32,16 +31,18 @@ void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionCol
 	DirectX::VertexPositionColor vc2(v2, DirectX::Colors::Black);
 	DirectX::VertexPositionColor vc3(v3, color);
 	DirectX::VertexPositionColor vc4(v4, color);
-
-	primitive_batch->DrawLine(vc1, vc2);
 	
-	vc1.color = DirectX::SimpleMath::Vector4(color);;
-	vc2.color = DirectX::SimpleMath::Vector4(color);;
+	vc1.color = DirectX::SimpleMath::Vector4(color);
+	vc2.color = DirectX::SimpleMath::Vector4(color);
 	primitive_batch->DrawQuad(vc3, vc1, vc2, vc4);
-
-
+	for (int i = 0; i < blood_pools.size(); ++i)
+	{
+		if (!blood_pools[i]->Draw(primitive_batch, DirectX::Colors::White, delta_time))
+		{
+			blood_pools.erase(blood_pools.begin() + i);
+		}
+	}
 	primitive_batch->End();
-	
 }
 
 void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time)
@@ -114,6 +115,8 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 			if (enemy[i]->Hit())
 			{
 				hp -= 10;
+				DirectX::SimpleMath::Vector2 temp = { player->GetX(), player->GetY() };
+				blood_pools.push_back(std::make_unique<BloodPool>(temp));
 				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
 				if (hp < 0)
 				{

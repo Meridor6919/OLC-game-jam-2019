@@ -6,6 +6,7 @@
 #include "AnimationHeaders.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "BloodPool.h"
 
 class Game
 {
@@ -16,6 +17,7 @@ class Game
 	std::shared_ptr<StickmanAnimationKick> kicking;
 	std::shared_ptr<StickmanAnimationFall> falling;
 	std::unique_ptr<MeridorGraphics::Text>text;
+	std::vector<std::unique_ptr<BloodPool>> blood_pools;
 	std::unique_ptr<DirectX::SpriteFont> sprite_font;
 	std::unique_ptr<Player> player;
 	std::vector<std::unique_ptr<Enemy>> enemy;
