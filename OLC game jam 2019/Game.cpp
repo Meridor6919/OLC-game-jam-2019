@@ -12,9 +12,12 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	player = std::make_unique<Player>(moving, staying);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
+	DirectX::SimpleMath::Vector2 v1 = { 0.4f, 0.6f };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
 	for (int i = 0; i < 100; ++i)
 		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
+	for (int i = 0; i < 1; ++i)
+		bullets.push_back(std::make_unique<Bullet>(v2, v1));
 }
 
 void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionColor> *primitive_batch, float delta_time)
@@ -40,6 +43,13 @@ void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionCol
 		if (!blood_pools[i]->Draw(primitive_batch, DirectX::Colors::White, delta_time))
 		{
 			blood_pools.erase(blood_pools.begin() + i);
+		}
+	}
+	for (int i = 0; i < bullets.size(); ++i)
+	{
+		if (!bullets[i]->Draw(primitive_batch, DirectX::Colors::White, delta_time))
+		{
+			bullets.erase(bullets.begin() + i);
 		}
 	}
 	primitive_batch->End();
@@ -74,6 +84,10 @@ void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time
 
 void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, const DirectX::Mouse * mouse, const DirectX::Keyboard::KeyboardStateTracker * keyboard_tracker, const DirectX::Keyboard * keyboard, float delta_time)
 {
+	for (int i = 0; i < bullets.size(); ++i)
+	{
+		bullets[i]->Update(delta_time);
+	}
 	if (alive)
 	{
 		if(enemy.size()< 1000)

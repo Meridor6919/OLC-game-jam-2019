@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "BloodPool.h"
+#include "Bullet.h"
 
 class Game
 {
@@ -18,6 +19,7 @@ class Game
 	std::shared_ptr<StickmanAnimationFall> falling;
 	std::unique_ptr<MeridorGraphics::Text>text;
 	std::vector<std::unique_ptr<BloodPool>> blood_pools;
+	std::vector<std::unique_ptr<Bullet>> bullets;
 	std::unique_ptr<DirectX::SpriteFont> sprite_font;
 	std::unique_ptr<Player> player;
 	std::vector<std::unique_ptr<Enemy>> enemy;
