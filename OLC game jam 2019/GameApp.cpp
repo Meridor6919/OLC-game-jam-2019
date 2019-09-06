@@ -66,12 +66,31 @@ void GameApp::Clear()
 
 	CD3D11_VIEWPORT viewPort(0.0f, 0.0f, static_cast<float>(window_width), static_cast<float>(window_height));
 	device_context->RSSetViewports(1, &viewPort);
-
-	device_context->OMSetBlendState(common_states->Opaque(), nullptr, 0xFFFFFFFF);
-	device_context->OMSetDepthStencilState(common_states->DepthNone(), 0);
-	device_context->RSSetState(common_states->CullNone());
 	basic_effect->SetWorld(DirectX::SimpleMath::Matrix::Identity);
 	basic_effect->Apply(device_context);
+
+	float f[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	D3D11_BLEND_DESC BlendStateDescription;
+	ZeroMemory(&BlendStateDescription, sizeof(D3D11_BLEND_DESC));
+
+	ID3D11BlendState* blend;
+
+	BlendStateDescription.RenderTarget[0].BlendEnable = TRUE;
+	BlendStateDescription.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	BlendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+
+	BlendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	BlendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_INV_DEST_ALPHA;
+	BlendStateDescription.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+	BlendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	BlendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+	device->CreateBlendState(&BlendStateDescription, &blend);
+	float blendFactor[] = { 0, 0, 0, 0 };
+	
+	device_context->OMSetBlendState(blend, blendFactor, 0x0000000f);
+	device_context->OMSetDepthStencilState(common_states->DepthDefault(), 0);
+	device_context->RSSetState(common_states->CullNone());
 	device_context->IASetInputLayout(input_layout);
 
 }

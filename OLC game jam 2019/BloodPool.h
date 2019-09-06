@@ -3,8 +3,8 @@
 class BloodPool : public Object
 {
 	float life_time = 1.0f;
-	float fading_time = 10.0f;
-	DirectX::XMVECTORF32 color = { 0.5f,0.0f,0.0f,1.0f };
+	float fading_time = 3.0f;
+	DirectX::XMVECTORF32 color = { 0.5f,0.0f,0.0f,0.5f };
 	DirectX::SimpleMath::Vector2 orientation_point;
 	DirectX::SimpleMath::Vector4 hitbox;
 public:
@@ -22,10 +22,10 @@ public:
 		DirectX::SimpleMath::Vector3 v5(orientation_point.x - size, orientation_point.y - size, 0.f);
 
 		DirectX::VertexPositionColor vc1(v1, color);
-		DirectX::VertexPositionColor vc2(v2, background_color);
-		DirectX::VertexPositionColor vc3(v3, background_color);
-		DirectX::VertexPositionColor vc4(v4, background_color);
-		DirectX::VertexPositionColor vc5(v5, background_color);
+		DirectX::VertexPositionColor vc2(v2, { 1.f, 1.f, 1.f, 0.f });
+		DirectX::VertexPositionColor vc3(v3,  { 1.f, 1.f, 1.f, 0.f });
+		DirectX::VertexPositionColor vc4(v4,  { 1.f, 1.f, 1.f, 0.f });
+		DirectX::VertexPositionColor vc5(v5,  { 1.f, 1.f, 1.f, 0.f });
 
 		primitive_batch->DrawTriangle(vc1, vc2, vc3);
 		primitive_batch->DrawTriangle(vc1, vc3, vc4);
@@ -41,9 +41,9 @@ public:
 			}
 			else
 			{
-				DirectX::SimpleMath::Vector4 v_1(background_color);
 				DirectX::SimpleMath::Vector4 v_2(color);
-				color = { v_2.x +v_1.x*delta_time, v_2.y + v_1.y*delta_time, v_2.y + v_1.y*delta_time };
+				v_2.w -= delta_time / fading_time / 2;
+				color = { v_2.x, v_2.y, v_2.z, v_2.w };
 			}
 		}
 		else
