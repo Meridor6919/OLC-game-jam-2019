@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OLC game jam 2019", "OLC game jam 2019\OLC game jam 2019.vcxproj", "{B05146E6-4B9A-4C1F-ABFB-44FCAF6940FF}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OLC installer", "OLC installer\OLC installer.vdproj", "{9DD113A2-DE76-4984-8385-F08B0DEBC635}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{B05146E6-4B9A-4C1F-ABFB-44FCAF6940FF}.Release|x64.Build.0 = Release|x64
 		{B05146E6-4B9A-4C1F-ABFB-44FCAF6940FF}.Release|x86.ActiveCfg = Release|Win32
 		{B05146E6-4B9A-4C1F-ABFB-44FCAF6940FF}.Release|x86.Build.0 = Release|Win32
+		{9DD113A2-DE76-4984-8385-F08B0DEBC635}.Debug|x64.ActiveCfg = Debug
+		{9DD113A2-DE76-4984-8385-F08B0DEBC635}.Debug|x86.ActiveCfg = Debug
+		{9DD113A2-DE76-4984-8385-F08B0DEBC635}.Release|x64.ActiveCfg = Release
+		{9DD113A2-DE76-4984-8385-F08B0DEBC635}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

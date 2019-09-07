@@ -136,6 +136,7 @@
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StanislawLR.h" />
     <ClInclude Include="StanislawStay.h" />
