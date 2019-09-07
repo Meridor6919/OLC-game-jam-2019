@@ -18,9 +18,9 @@ public:
 	}
 	virtual bool Draw(DirectX::PrimitiveBatch<DirectX::VertexPositionColor> *primitive_batch, DirectX::XMVECTORF32 background_color, float delta_time)
 	{
-		const float size = 30.0f;
+		const float size = 20.0f;
 		DirectX::SimpleMath::Vector3 v1(orientation_point.x, orientation_point.y, 1.0f);
-		DirectX::SimpleMath::Vector3 v2(orientation_point.x-100.0f*direction.x, orientation_point.y + 100.0f*direction.y, 0.0f);
+		DirectX::SimpleMath::Vector3 v2(orientation_point.x-size*direction.x, orientation_point.y + size*direction.y, 0.0f);
 
 		DirectX::VertexPositionColor vc1(v1, color);
 		DirectX::VertexPositionColor vc2(v2, { 0.f, 0.f, 0.f, 0.f });

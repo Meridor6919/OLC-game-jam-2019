@@ -12,12 +12,9 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	player = std::make_unique<Player>(moving, staying);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
-	DirectX::SimpleMath::Vector2 v1 = { 0.5f, -0.5f };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
 	for (int i = 0; i < 100; ++i)
 		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
-	for (int i = 0; i < 1; ++i)
-		bullets.push_back(std::make_unique<Bullet>(v2, v1));
 }
 
 void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionColor> *primitive_batch, float delta_time)
@@ -90,11 +87,22 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 	}
 	if (alive)
 	{
-		if(enemy.size()< 1000)
+		if(enemy.size()< 1)
 			enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 		auto keyboard_state = keyboard->GetState();
+		auto mouse_state = mouse->GetState();
+		if (mouse_state.leftButton)
+		{
+			DirectX::SimpleMath::Vector2 v1;
+			float sum = abs(player->GetX() - mouse_state.x + player->GetWidth()) + abs(player->GetY() + player->GetHeight() - mouse_state.y);
+			v1.x = (player->GetX() - mouse_state.x + player->GetWidth()) / -sum;
+			v1.y = (player->GetY() - mouse_state.y + player->GetHeight()) / sum;;
+			DirectX::SimpleMath::Vector2 v2 = { player->GetX() + player->GetWidth()*roundf((v1.x+1)/2), player->GetY() + player->GetHeight()/2 };
+			bullets.push_back(std::make_unique<Bullet>(v2, v1));
+			
+		}
 
-		DirectX::SimpleMath::Vector2 player_move = { static_cast<float>(keyboard_state.Right + keyboard_state.Left*-1),  static_cast<float>(keyboard_state.Up + keyboard_state.Down*-1) };
+		DirectX::SimpleMath::Vector2 player_move = { static_cast<float>((keyboard_state.Right || keyboard_state.D) + (keyboard_state.Left || keyboard_state.A)*-1),  static_cast<float>((keyboard_state.Up || keyboard_state.W) + (keyboard_state.Down || keyboard_state.S)*-1) };
 		float sum = abs(player_move.x) + abs(player_move.y);
 		if (sum == 0)
 		{
@@ -110,10 +118,6 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 
 			float distance_x = abs(player->GetX() +player->GetWidth()/2 - enemy[i]->GetX() - enemy[i]->GetWidth()/2 );
 			float distance_y = abs(player->GetY() + player->GetHeight() / 2 - enemy[i]->GetY() - enemy[i]->GetHeight()/2);
-			if (keyboard->GetState().A)
-			{
-				DebugBreak();
-			}
 			if (distance_x*distance_x + distance_y * distance_y < player->GetWidth()/1.2f*enemy[i]->GetWidth()/1.2f)
 			{
 				dir.x = 0.0f;
@@ -128,7 +132,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 			enemy[i]->Update(delta_time);
 			if (enemy[i]->Hit())
 			{
-				hp -= 1;
+				hp -= 10;
 				DirectX::SimpleMath::Vector2 temp = { player->GetX() + player->GetWidth()/2, player->GetY() + player->GetHeight()/2 };
 				blood_pools.push_back(std::make_unique<BloodPool>(temp));
 				color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
@@ -138,7 +142,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 					break;
 				}
 			}
-			for (int j = 0; j < bullets.size(); ++j)
+			for (int j = 0; j < static_cast<int>(bullets.size()); ++j)
 			{
 				DirectX::SimpleMath::Vector4 hitbox = { enemy[i]->GetX(), enemy[i]->GetY(), enemy[i]->GetX() + enemy[i]->GetWidth(), enemy[i]->GetY() + enemy[i]->GetHeight() };
 				if (bullets[j]->Collision(hitbox))
@@ -146,7 +150,14 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 					DirectX::SimpleMath::Vector2 temp = { enemy[i]->GetX() + enemy[i]->GetWidth() / 2, enemy[i]->GetY() + enemy[i]->GetHeight() / 2 };
 					blood_pools.push_back(std::make_unique<BloodPool>(temp));
 					enemy.erase(enemy.begin() + i);
+					bullets.erase(bullets.begin() + j);
+					j--;
+					hp += 1;
+					if (hp > 100)
+						hp = 100;
+					color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
 					i -= 1;
+					break;
 				}
 			}
 		}

@@ -3,8 +3,8 @@
 class BloodPool : public Object
 {
 	float life_time = 1.0f;
-	float fading_time = 3.0f;
-	DirectX::XMVECTORF32 color = { 0.5f,0.0f,0.0f,0.5f };
+	float fading_time = 9.0f;
+	DirectX::XMVECTORF32 color = { 0.45f,0.1f,0.1f,0.5f };
 	DirectX::SimpleMath::Vector2 orientation_point;
 	DirectX::SimpleMath::Vector4 hitbox;
 public:
@@ -14,7 +14,7 @@ public:
 	}
 	virtual bool Draw(DirectX::PrimitiveBatch<DirectX::VertexPositionColor> *primitive_batch, DirectX::XMVECTORF32 background_color, float delta_time)
 	{
-		const float size = 30.0f;
+		float size = 40.0f+50.0f/fading_time;
 		DirectX::SimpleMath::Vector3 v1(orientation_point.x, orientation_point.y, 0.0f);
 		DirectX::SimpleMath::Vector3 v2(orientation_point.x - size, orientation_point.y+size, 0.f);
 		DirectX::SimpleMath::Vector3 v3(orientation_point.x + size, orientation_point.y + size, 0.f);
