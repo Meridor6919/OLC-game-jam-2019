@@ -8,12 +8,14 @@
 #include "Enemy.h"
 #include "BloodPool.h"
 #include "Bullet.h"
+#include <float.h>
 
 class Game
 {
 	long kills = 0;
 	int hp = 100;
 	bool alive = true;
+	float last_spawn = 0.0f;
 	std::shared_ptr<StickmanAnimationLR> moving;
 	std::shared_ptr<StickmanAnimationStay> staying;
 	std::shared_ptr<StickmanAnimationKick> kicking;

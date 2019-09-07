@@ -7,7 +7,7 @@ class StickmanAnimationFall : public Animation
 public:
 	StickmanAnimationFall(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	{
-		frame_time = 0.1f;
+		frame_time = 0.05f;
 		path = L"Graphics\\StickmanFall.png";
 		frame_width = 250;
 		frame_height = 250;

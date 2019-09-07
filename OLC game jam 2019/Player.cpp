@@ -54,16 +54,15 @@ void Player::Move(DirectX::SimpleMath::Vector2 direction, float delta_time)
 
 void Player::Draw()
 {
-	if (firing)
-	{
-		firing = false;
-		std::get<2>(moving) = 0;
-		std::get<0>(moving)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
-	}
-	else if (move)
+	if (move)
 	{
 		std::get<2>(staying) = 0;
 		std::get<0>(moving)->SetFrame(std::get<2>(moving));
+		std::get<0>(moving)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
+	}
+	else if (firing)
+	{
+		std::get<2>(moving) = 0;
 		std::get<0>(moving)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
 	}
 	else
@@ -72,6 +71,7 @@ void Player::Draw()
 		std::get<0>(staying)->SetFrame(std::get<2>(staying));
 		std::get<0>(staying)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
 	}
+	firing = false;
 }
 
 void Player::Update(float delta_time)

@@ -42,7 +42,7 @@ public:
 	}
 	virtual void Update(float delta_time)
 	{
-		
+		animated_sprite->Update(delta_time);
 	}
 public:
 	virtual int NumberOfFrames()

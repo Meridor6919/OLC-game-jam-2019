@@ -15,8 +15,6 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
-	for (int i = 0; i < 100; ++i)
-		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 }
 
 void Game::DrawPrimitiveBatch(DirectX::PrimitiveBatch<DirectX::VertexPositionColor> *primitive_batch, float delta_time)
@@ -88,14 +86,23 @@ void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time
 
 void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, const DirectX::Mouse * mouse, const DirectX::Keyboard::KeyboardStateTracker * keyboard_tracker, const DirectX::Keyboard * keyboard, float delta_time)
 {
+	const float spawn_time = 0.5f;
 	for (int i = 0; i < bullets.size(); ++i)
 	{
 		bullets[i]->Update(delta_time);
 	}
 	if (alive)
 	{
-		if(enemy.size()< 1000)
-			enemy.push_back(std::make_unique<Enemy>(moving, kicking));
+		if (enemy.size() < kills+1)
+		{
+			last_spawn -= delta_time;
+			if (last_spawn < 0)
+			{
+				last_spawn = spawn_time;
+				for(double j = 0; j < kills/10+1; j+=1.0f)
+					enemy.push_back(std::make_unique<Enemy>(moving, kicking, falling));
+			}
+		}
 		auto keyboard_state = keyboard->GetState();
 		auto mouse_state = mouse->GetState();
 		if (mouse_state.leftButton)
@@ -164,17 +171,21 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 				{
 					DirectX::SimpleMath::Vector2 temp = { enemy[i]->GetX() + enemy[i]->GetWidth() / 2, enemy[i]->GetY() + enemy[i]->GetHeight() / 2 };
 					blood_pools.push_back(std::make_unique<BloodPool>(temp));
-					enemy.erase(enemy.begin() + i);
+					enemy[i]->falling = true;
 					bullets.erase(bullets.begin() + j);
-					kills++;
+					
 					j--;
 					hp += 1;
 					if (hp > 100)
 						hp = 100;
 					color = { 0.2f + static_cast<float>(100 - hp) / 100.0f , 0.8f - static_cast<float>(100 - hp) / 100.0f, 0.1f, 1.0f };
-					i -= 1;
 					break;
 				}
+			}
+			if (enemy[i]->Remove())
+			{
+				enemy.erase(enemy.begin() + i);
+				kills++;
 			}
 		}
 	}
