@@ -12,7 +12,7 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	player = std::make_unique<Player>(moving, staying);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
-	DirectX::SimpleMath::Vector2 v1 = { 0.4f, 0.6f };
+	DirectX::SimpleMath::Vector2 v1 = { 0.5f, -0.5f };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
 	for (int i = 0; i < 100; ++i)
 		enemy.push_back(std::make_unique<Enemy>(moving, kicking));
@@ -136,6 +136,17 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 				{
 					alive = false;
 					break;
+				}
+			}
+			for (int j = 0; j < bullets.size(); ++j)
+			{
+				DirectX::SimpleMath::Vector4 hitbox = { enemy[i]->GetX(), enemy[i]->GetY(), enemy[i]->GetX() + enemy[i]->GetWidth(), enemy[i]->GetY() + enemy[i]->GetHeight() };
+				if (bullets[j]->Collision(hitbox))
+				{
+					DirectX::SimpleMath::Vector2 temp = { enemy[i]->GetX() + enemy[i]->GetWidth() / 2, enemy[i]->GetY() + enemy[i]->GetHeight() / 2 };
+					blood_pools.push_back(std::make_unique<BloodPool>(temp));
+					enemy.erase(enemy.begin() + i);
+					i -= 1;
 				}
 			}
 		}
