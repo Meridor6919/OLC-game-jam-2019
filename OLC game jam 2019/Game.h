@@ -17,6 +17,7 @@ class Game
 	std::shared_ptr<StickmanAnimationStay> staying;
 	std::shared_ptr<StickmanAnimationKick> kicking;
 	std::shared_ptr<StickmanAnimationFall> falling;
+	std::shared_ptr<StanislawLR> stanislaw_moving;
 	std::unique_ptr<MeridorGraphics::Text>text;
 	std::vector<std::unique_ptr<BloodPool>> blood_pools;
 	std::vector<std::unique_ptr<Bullet>> bullets;

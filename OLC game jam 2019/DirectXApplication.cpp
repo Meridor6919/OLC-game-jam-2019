@@ -7,7 +7,7 @@ DirectXApplication::DirectXApplication(HINSTANCE instance)
 	this->instance = &instance;
 	window_width = 1200;
 	window_height = 800;
-	title = "Prototype";
+	title = "Stanislaw's Revange";
 	window_style = WS_OVERLAPPED;
 
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));

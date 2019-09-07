@@ -8,8 +8,9 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	staying = std::make_shared<StickmanAnimationStay>(sprite_batch, device);
 	kicking = std::make_shared<StickmanAnimationKick>(sprite_batch, device);
 	falling = std::make_shared<StickmanAnimationFall>(sprite_batch, device);
+	stanislaw_moving = std::make_shared<StanislawLR>(sprite_batch, device);
 
-	player = std::make_unique<Player>(moving, staying);
+	player = std::make_unique<Player>(stanislaw_moving, stanislaw_moving);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
@@ -87,7 +88,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 	}
 	if (alive)
 	{
-		if(enemy.size()< 1)
+		if(enemy.size()< 1000)
 			enemy.push_back(std::make_unique<Enemy>(moving, kicking));
 		auto keyboard_state = keyboard->GetState();
 		auto mouse_state = mouse->GetState();
@@ -98,8 +99,13 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 			v1.x = (player->GetX() - mouse_state.x + player->GetWidth()) / -sum;
 			v1.y = (player->GetY() - mouse_state.y + player->GetHeight()) / sum;;
 			DirectX::SimpleMath::Vector2 v2 = { player->GetX() + player->GetWidth()*roundf((v1.x+1)/2), player->GetY() + player->GetHeight()/2 };
-			bullets.push_back(std::make_unique<Bullet>(v2, v1));
-			
+			for (int j = 0; j < 4; ++j)
+			{
+				float spread_x = static_cast<float>(rand() % 100) / 500.0f - 1.0f / 10.0f;
+				float spread_y = static_cast<float>(rand() % 100) / 500.0f - 1.0f / 10.0f;
+				DirectX::SimpleMath::Vector2 v3 = { v1.x + spread_x, v1.y + spread_y };
+				bullets.push_back(std::make_unique<Bullet>(v2, v3));
+			}
 		}
 
 		DirectX::SimpleMath::Vector2 player_move = { static_cast<float>((keyboard_state.Right || keyboard_state.D) + (keyboard_state.Left || keyboard_state.A)*-1),  static_cast<float>((keyboard_state.Up || keyboard_state.W) + (keyboard_state.Down || keyboard_state.S)*-1) };

@@ -90,6 +90,9 @@
     <ClInclude Include="Bullet.h">
       <Filter>Game Files</Filter>
     </ClInclude>
+    <ClInclude Include="StanislawLR.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
