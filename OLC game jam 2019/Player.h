@@ -11,6 +11,9 @@ protected:
 	int height;
 	float base_speed;
 	bool to_the_left;
+	bool firing = false;
+	float fire_delay = 0.1f;
+	float next_fire = 0.1f;
 	bool move;
 	std::tuple< std::shared_ptr<Animation>, float, int> moving;
 	std::tuple< std::shared_ptr<Animation>, float, int> staying;
@@ -25,5 +28,6 @@ public:
 	virtual float GetY() { return pos_y; }
 	virtual float GetWidth() { return static_cast<float>(width);  }
 	virtual float GetHeight() { return static_cast<float>(height); }
+	virtual bool Fire(float delta_time, bool to_the_left);
 };
 

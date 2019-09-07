@@ -105,12 +105,15 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 			v1.x = (player->GetX() - mouse_state.x + player->GetWidth()) / -sum;
 			v1.y = (player->GetY() - mouse_state.y + player->GetHeight()) / sum;;
 			DirectX::SimpleMath::Vector2 v2 = { player->GetX() + player->GetWidth()*roundf((v1.x+1)/2), player->GetY() + player->GetHeight()/2 };
-			for (int j = 0; j < 4; ++j)
+			if (player->Fire(delta_time, v1.x < 0))
 			{
-				float spread_x = static_cast<float>(rand() % 100) / 500.0f - 1.0f / 10.0f;
-				float spread_y = static_cast<float>(rand() % 100) / 500.0f - 1.0f / 10.0f;
-				DirectX::SimpleMath::Vector2 v3 = { v1.x + spread_x, v1.y + spread_y };
-				bullets.push_back(std::make_unique<Bullet>(v2, v3));
+				for (int j = 0; j < 4; ++j)
+				{
+					float spread_x = static_cast<float>(rand() % 100) / 500.0f - 1.0f / 10.0f;
+					float spread_y = static_cast<float>(rand() % 100) / 500.0f - 1.0f / 10.0f;
+					DirectX::SimpleMath::Vector2 v3 = { v1.x + spread_x, v1.y + spread_y };
+					bullets.push_back(std::make_unique<Bullet>(v2, v3));
+				}
 			}
 		}
 

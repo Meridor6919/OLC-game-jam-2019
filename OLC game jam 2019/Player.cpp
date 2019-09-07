@@ -45,13 +45,22 @@ void Player::Move(DirectX::SimpleMath::Vector2 direction, float delta_time)
 		pos_y -= direction.y*delta_time*base_speed;
 
 		SetBoundries();
-		to_the_left = direction.x < 0;
+		if (!firing)
+		{
+			to_the_left = direction.x < 0;
+		}
 	}
 }
 
 void Player::Draw()
 {
-	if (move)
+	if (firing)
+	{
+		firing = false;
+		std::get<2>(moving) = 0;
+		std::get<0>(moving)->Draw(pos_x, pos_y, width, height, 1.0f, to_the_left ? DirectX::SpriteEffects::SpriteEffects_FlipHorizontally : DirectX::SpriteEffects::SpriteEffects_None);
+	}
+	else if (move)
 	{
 		std::get<2>(staying) = 0;
 		std::get<0>(moving)->SetFrame(std::get<2>(moving));
@@ -90,6 +99,22 @@ void Player::Update(float delta_time)
 			if (std::get<1>(staying) < 0)
 				std::get<1>(staying) = 0;
 		}
+	}
+}
+
+bool Player::Fire(float delta_time, bool to_the_left)
+{
+	firing = true;
+	this->to_the_left = to_the_left;
+	next_fire -= delta_time;
+	if (next_fire < 0)
+	{
+		next_fire = fire_delay;
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
