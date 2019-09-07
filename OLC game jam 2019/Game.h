@@ -11,6 +11,7 @@
 
 class Game
 {
+	long kills = 0;
 	int hp = 100;
 	bool alive = true;
 	std::shared_ptr<StickmanAnimationLR> moving;
@@ -18,6 +19,7 @@ class Game
 	std::shared_ptr<StickmanAnimationKick> kicking;
 	std::shared_ptr<StickmanAnimationFall> falling;
 	std::shared_ptr<StanislawLR> stanislaw_moving;
+	std::shared_ptr<StanislawStay> stanislaw_staying;
 	std::unique_ptr<MeridorGraphics::Text>text;
 	std::vector<std::unique_ptr<BloodPool>> blood_pools;
 	std::vector<std::unique_ptr<Bullet>> bullets;

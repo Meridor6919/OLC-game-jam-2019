@@ -9,8 +9,9 @@ Game::Game(DirectX::SpriteBatch* sprite_batch, ID3D11Device* device)
 	kicking = std::make_shared<StickmanAnimationKick>(sprite_batch, device);
 	falling = std::make_shared<StickmanAnimationFall>(sprite_batch, device);
 	stanislaw_moving = std::make_shared<StanislawLR>(sprite_batch, device);
+	stanislaw_staying = std::make_shared<StanislawStay>(sprite_batch, device);
 
-	player = std::make_unique<Player>(stanislaw_moving, stanislaw_moving);
+	player = std::make_unique<Player>(stanislaw_moving, stanislaw_staying);
 	sprite_font = std::make_unique<DirectX::SpriteFont>(device, L"Graphics\\myfile.spritefont", true);
 	DirectX::SimpleMath::Vector2 v2 = { 150, 300 };
 	text = std::make_unique<MeridorGraphics::Text>(sprite_font.get(), sprite_batch, 64, v2);
@@ -77,6 +78,11 @@ void Game::DrawSpriteBatch(DirectX::SpriteBatch * sprite_batch, float delta_time
 		text->Draw(L"Press R to Reset");
 		
 	}
+	text->SetFontSize(20.0f);
+	text->SetPosition({ 10, 5 });
+	text->SetColor(DirectX::Colors::Black);
+	std::wstring w = L"Kills: " + std::to_wstring(kills);
+	text->Draw(w.c_str());
 	sprite_batch->End();
 }
 
@@ -157,6 +163,7 @@ void Game::Update(const DirectX::Mouse::ButtonStateTracker * button_tracker, con
 					blood_pools.push_back(std::make_unique<BloodPool>(temp));
 					enemy.erase(enemy.begin() + i);
 					bullets.erase(bullets.begin() + j);
+					kills++;
 					j--;
 					hp += 1;
 					if (hp > 100)

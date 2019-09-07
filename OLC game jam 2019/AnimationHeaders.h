@@ -4,3 +4,4 @@
 #include "StickmanAnimationKick.h"
 #include "StickmanAnimationLR.h"
 #include "StanislawLR.h"
+#include "StanislawStay.h"

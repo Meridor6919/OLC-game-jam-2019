@@ -93,6 +93,9 @@
     <ClInclude Include="StanislawLR.h">
       <Filter>Animations</Filter>
     </ClInclude>
+    <ClInclude Include="StanislawStay.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -138,6 +138,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StanislawLR.h" />
+    <ClInclude Include="StanislawStay.h" />
     <ClInclude Include="StickmanAnimationStay.h" />
     <ClInclude Include="StickmanAnimationFall.h" />
     <ClInclude Include="StickmanAnimationKick.h" />
