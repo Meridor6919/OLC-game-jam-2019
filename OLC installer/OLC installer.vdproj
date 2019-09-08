@@ -97,6 +97,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -113,6 +121,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -411,7 +427,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Stanislaw's revange"
+        "ProductName" = "8:Stanislaw's revenge"
         "ProductCode" = "8:{3B9B9D2F-D4D2-44C9-A391-F54F97EE280C}"
         "PackageCode" = "8:{25F59930-7783-48B5-BE78-A4D4D3F1348B}"
         "UpgradeCode" = "8:{39B43ED9-5C86-4F38-A4D9-0AB977463713}"
@@ -424,7 +440,7 @@
         "Manufacturer" = "8:Meridor"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Stanislaw's revange "
+        "Title" = "8:Stanislaw's revenge "
         "Subject" = "8:"
         "ARPCONTACT" = "8:Meridor"
         "Keywords" = "8:"
@@ -535,7 +551,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_586C181BD2814882A82C350DBAF31314"
             {
-            "Name" = "8:Stanislaws Revange"
+            "Name" = "8:Stanislaws Revenge"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
